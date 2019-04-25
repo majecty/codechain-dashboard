@@ -316,6 +316,7 @@ impl Agent {
         let network_id = self.codechain_rpc.get_network_id(info.status)?;
         let whitelist = self.codechain_rpc.get_whitelist(info.status)?;
         let blacklist = self.codechain_rpc.get_blacklist(info.status)?;
+        let network_usage = self.codechain_rpc.get_network_usage(info.status)?;
         let hardware = self.sender.hardware_get().map_err(|err| format!("Agent Update {}", err))?;
 
         ctrace!("Update state from {:?} to {:?}", *state, new_state);
@@ -336,7 +337,13 @@ impl Agent {
         *state = new_state;
 
         let logs = self.codechain_rpc.get_logs(info.status)?;
-        self.db_service.write_logs(info.name, logs);
+        self.db_service.write_logs(info.name.clone(), logs);
+
+        let now = chrono::Local::now();
+        if let Some(network_usage) = network_usage {
+            self.db_service.write_network_usage(info.name.clone(), network_usage, now);
+            self.db_service.write_peer_count(info.name, number_of_peers as i32, now);
+        }
 
         Ok(Some(UpdateResult {
             network_id: network_id.unwrap_or_default(),
