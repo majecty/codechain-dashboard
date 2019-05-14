@@ -156,3 +156,5 @@ pub struct GraphNetworkOutAllRow {
     pub time: DateTime<Utc>,
     pub value: f32,
 }
+
+pub type GraphNetworkOutAllAVGRow = GraphNetworkOutAllRow;
