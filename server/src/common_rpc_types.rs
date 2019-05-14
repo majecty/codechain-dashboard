@@ -158,3 +158,11 @@ pub struct GraphNetworkOutAllRow {
 }
 
 pub type GraphNetworkOutAllAVGRow = GraphNetworkOutAllRow;
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GraphNetworkOutNodeExtensionRow {
+    pub extension: String,
+    pub time: DateTime<Utc>,
+    pub value: f32,
+}
