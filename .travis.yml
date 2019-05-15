@@ -39,7 +39,8 @@ jobs:
         - yarn install
       script:
         - yarn lint
-        - yarn build
+        - yarn build-css
+        - yarn build-js
 cache:
   cargo: true
   directories:
