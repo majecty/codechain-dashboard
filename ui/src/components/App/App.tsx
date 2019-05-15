@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactModal from "react-modal";
+import ReactModal from "react-modal";
 import { connect, DispatchProp } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";

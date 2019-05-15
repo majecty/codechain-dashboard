@@ -11,10 +11,6 @@ interface Props {
 }
 
 export default class Graph extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   public render() {
     const { match } = this.props;
     return (
