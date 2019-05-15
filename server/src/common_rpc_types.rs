@@ -166,3 +166,11 @@ pub struct GraphNetworkOutNodeExtensionRow {
     pub time: DateTime<Utc>,
     pub value: f32,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct GraphNetworkOutNodePeerRow {
+    pub peer: String,
+    pub time: DateTime<Utc>,
+    pub value: f32,
+}
