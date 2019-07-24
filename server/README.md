@@ -59,3 +59,15 @@ The server uses [webhooks](https://api.slack.com/incoming-webhooks)
 ```
 SLACK_HOOK_URL={web hook url} codechain-agent-hub
 ```
+
+Environmental Variables
+------------------------
+
+| NAME              | DESCRIPTION                                                                                     |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| START_AT_CONNECT  | When this variable is set, start CodeChain instance when an agent connects to the agent server. |
+| NETWORK_ID        | Network ID information that is used in error message or log.                                    |
+| SLACK_WEBHOOK_URL | Used to send alarms to slack.                                                                   |
+| SENDGRID_TO       | An email address to receive alarm emails.                                                       |
+| SENDGRID_API_KEY  | An API Key to use to send alarms.                                                               |
+| PASSPHRASE        | A passphrase that is used to communicate with the Dashboard safely.                             |
