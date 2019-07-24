@@ -94,8 +94,8 @@ impl HardwareService {
             Vec::new()
         };
 
-        let disk_usage = get_disk_usage(sysinfo_sys);
         let disk_usages = get_disk_usages(sysinfo_sys);
+        let disk_usage = merge_disk_usages(&disk_usages);
         let mut systemstat_sys = systemstat::System::new();
         let memory_usage = get_memory_usage(&mut systemstat_sys);
 
@@ -144,29 +144,6 @@ pub struct HardwareInfo {
     pub memory_usage: HardwareUsage,
 }
 
-// get_disk_usage function is deprecated.
-fn get_disk_usage(sys: &mut sysinfo::System) -> HardwareUsage {
-    sys.refresh_disk_list();
-    sys.refresh_disks();
-
-    let mut total: i64 = 0;
-    let mut available: i64 = 0;
-    for disk in sys.get_disks() {
-        total += disk.get_total_space() as i64;
-        available += disk.get_available_space() as i64;
-    }
-    let percentage_used = if total == 0 {
-        0f64
-    } else {
-        (total - available) as f64 / total as f64
-    };
-    HardwareUsage {
-        total,
-        available,
-        percentage_used,
-    }
-}
-
 fn get_disk_usages(sys: &mut sysinfo::System) -> Vec<HardwareUsage> {
     sys.refresh_disk_list();
     sys.refresh_disks();
@@ -189,6 +166,24 @@ fn get_disk_usages(sys: &mut sysinfo::System) -> Vec<HardwareUsage> {
             percentage_used,
         });
     }
+
+    result
+}
+
+fn merge_disk_usages(usages: &Vec<HardwareUsage>) -> HardwareUsage {
+    let mut result = HardwareUsage::default();
+
+    for usage in usages {
+        result.total += usage.total;
+        result.available += usage.available;
+    }
+
+    let percentage_used = if result.total == 0 {
+        0f64
+    } else {
+        (result.total - result.available) as f64 / result.total as f64
+    };
+    result.percentage_used = percentage_used;
 
     result
 }
